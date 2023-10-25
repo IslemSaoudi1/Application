@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Accueil{% endblock %} - Stream Site</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Feuilles de styles -->
+    <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}">
+    {% endblock %}
+
+    <!-- Fichiers JS -->
+    <script src="{{ asset('asset/js/bootstrap.bundle.min.js') }}" defer></script>
+    {% block javascripts %}{% endblock %}
+    <script src="{{ asset('asset/js/scripts.js') }}" defer></script>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding: 0;">
+{% include "_partials/_nav.html.twig" %}
+
+{% include "_partials/_flash.html.twig" %}
+
+<div style="flex: 1;">
+    {% block body %}{% endblock %}
+</div>
+
+{% include "_partials/_footer.html.twig" %}
+</body>
+</html>

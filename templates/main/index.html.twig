@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background-image: url('{{ asset('asset/images/image.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Ajuste la hauteur à la taille de la fenêtre */
+        }
+
+        .text-container {
+            margin-top: 110px;
+            color: black;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 24px;
+            transform: translate(-50%, -50%);
+        }
+        .text {
+            margin-top: 170px;
+            color: black;
+            text-transform: lowercase;
+            font-weight: bold;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 18px;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="text-container">
+            Streamlink Votre Partenaire BI BIG data ,SAP, CLOUD
+    </div>
+    <div class="text">
+        Notre objectif est de déveloper des partenaires avec nos clients et les aider à valoriser leur patrimonie de données ,pour faciliter les prises de décision
+    </div>
+{% endblock %}
+

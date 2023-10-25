@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: black; height: 80px;">
+<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path('main') }}">
+			<img src="{{ asset('asset/images/logo.png') }}" alt="Logo de Streamlink" style="width: 50px;">
+		</a>
+		<a class="navbar-brand" href="{{ path('main') }}" style="color: white;">
+			<strong style="color: white;">Stream</strong><strong  style="color: dodgerblue;">link</strong>
+		</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active text-white" aria-current="page" href="{{ path('main') }}">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active text-white" href="#">Link</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				{% if app.user %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a class="nav-link" href="#" style="color: white;">Administration</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_logout') }}" style="color: white;">Me déconnecter</a>
+						</li>
+					{% endif %}
+				{% if is_granted('ROLE_USER') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_contact') }}" style="color: white;">Contact</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"  style="color: white;">Mon compte</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_logout') }}" style="color: white;">Me déconnecter</a>
+					</li>
+					{% endif %}
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_register') }}" style="color: white;">M'inscrire</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_login') }}" style="color: white;">Me Connecter</a>
+					</li>
+
+
+				{% endif %}
+			</ul>
+		</div>
+		</div>
+	</div>
+</nav>

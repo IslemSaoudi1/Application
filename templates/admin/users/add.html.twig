@@ -1,0 +1,22 @@
+{# templates/admin/add.html.twig #}
+
+{#{% extends '../../base.html.twig' %}#}
+
+{% block title %}Ajouter un Administrateur{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un Administrateur</h1>
+
+<fieldset class="mb-3">
+    {{ form_row(form.email) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.Firstname) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.plainPassword, {label: 'Password'}) }}
+    {{ form_row(form.agreeTerms) }}
+
+        <button type="submit" class="btn btn-primary btn-lg my-3">Register</button>
+{#        <a href="{{ path('app_login') }}" class="btn btn-secondary">Connect</a>#}
+</fieldset>
+    {{ form_end(form) }}
+{% endblock %}

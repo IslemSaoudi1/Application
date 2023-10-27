@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
-use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\User;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-#[Route('/admin', name: 'admin_users_')]
+
+//#[Route('/admin', name: 'admin_users_')]
 class UsersController extends AbstractController
 {
-    #[Route('/index', name: 'index_admin_')]
+    #[Route('/index', name: 'admin_index')]
     public function index(UserRepository $usersRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

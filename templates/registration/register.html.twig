@@ -73,6 +73,7 @@
             {{ form_start(registrationForm) }}
             <fieldset class="mb-3">
                 {{ form_row(registrationForm.email, { 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+                {{ form_row(registrationForm._token) }}
                 {{ form_row(registrationForm.lastname, { 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
                 {{ form_row(registrationForm.Firstname, { 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
                 {{ form_row(registrationForm.address, { 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
@@ -82,6 +83,7 @@
                     <button type="submit" class="btn btn-primary btn-lg my-3">Register</button>
 {#                    <a href="{{ path('app_login') }}" class="btn btn-secondary">Connect</a>#}
                 </fieldset>
+            </fieldset>
         </div>
         </div>
     </section>

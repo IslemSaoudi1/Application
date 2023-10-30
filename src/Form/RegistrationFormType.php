@@ -23,8 +23,10 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'E-mail'
+                'label' => 'E-mail',
+                'auto_initialize' => false,
             ])
+
             ->add('lastname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'

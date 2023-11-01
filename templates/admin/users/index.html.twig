@@ -8,6 +8,9 @@
             {% include "_partials/_adminnav.html.twig" %}
             <main class="col-9 border border-light bg-white p-2">
                 <h1>Liste des utilisateurs</h1>
+                <a href="{{ path('user_add') }}" class="btn btn-primary">Ajouter un utilisateur</a>
+
+                <table class="table">
                 <table class="table">
                     <thead>
                         <tr>
@@ -40,7 +43,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="#" class="btn btn-success">Modifier</a>
+                                    <a href="{{ path('user_delete', {'id': user.id}) }}" class="btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des Profiles{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% include "_partials/_adminnav.html.twig" %}
+            <main class="col-9 border border-light bg-white p-2">
+                <h1>Liste des Profiles</h1>
+                <a href="{{ path( 'profile_add' )}}" class="btn btn-primary">Ajouter</a>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>User_id</th>
+                        <th>Job_description</th>
+                        <th>Nationality</th>
+                        <th>Passeport</th>
+                        <th>passportdelivered_on</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for profile in profiles %}
+                        <tr>
+                            <td>{{ profile.user.id }}</td>
+                            <td>{{ profile.jobDescription }}</td>
+                            <td>{{ profile.nationality }}</td>
+                            <td>
+                                {% if profile.passport %}
+{#                                    <img src="{{ asset('assets/images/' ~ profile.passport) }}" alt="Passeport">#}
+                                    <img src="{{ asset('images/' ~ profile.passport) }}" alt="Passeport">
+
+{#                                    <img src="{{ asset('images/' ~ profile.passport) }}" alt="Passeport">#}
+                                {% else %}
+                                    Aucun passeport
+                                {% endif %}
+                            </td>
+                            <td>{{ profile.passportDeliveredOn|date('Y-m-d') }}</td>
+
+
+
+
+                            <td>
+                                <a href="{{path('profile_edit', {'id': profile.id}) }}"  class="btn btn-success">Modifier</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('profile_delete', {'id': profile.id}) }}"  class="btn btn-danger">Supprimer</a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+{% endblock %}

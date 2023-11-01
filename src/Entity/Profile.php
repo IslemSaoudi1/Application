@@ -26,7 +26,7 @@ class Profile
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $passportdeliveredOn = null;
 
-    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'profile')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 

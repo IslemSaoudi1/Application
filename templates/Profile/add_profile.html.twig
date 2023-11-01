@@ -70,13 +70,13 @@
 
         {{ form_errors(form) }}
 
-        {{ form_start(form) }}
+        {{ form_start(form,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
         <fieldset class="mb-3">
-    {{ form_row(form.jobDescription) }}
-    {{ form_row(form.Nationality) }}
-    {{ form_row(form.passport) }}
-    {{ form_row(form.passportdeliveredOn) }}
-    {{ form_row(form.User) }}
+    {{ form_row(form.jobDescription,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.Nationality,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.passport,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.passportdeliveredOn,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.User,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
         </fieldset>
 
             <fieldset class="mb-3">

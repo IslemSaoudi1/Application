@@ -1,21 +1,89 @@
 {# templates/admin/add_user.html.twig #}
 
 {#{% extends '../../base.html.twig' %}#}
+{# templates/profile/edit_profile.html.twig #}
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        body {
+            background-image: url('{{ asset('asset/images/Image1.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
 
-{% extends "base.html.twig" %}
+        .registration-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
 
+        .registration-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            width: 40%; /* Augmenter la largeur du formulaire */
+            text-align: left; /* Centrer le contenu du formulaire */
+        }
+
+        .form-title {
+            color: MidnightBlue;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-field-label {
+            color: darkblue;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-field-input {
+            color: darkblue;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            width: 100%; /* Augmenter la largeur des champs */
+        }
+
+        .btn-primary {
+            background-color: MidnightBlue;
+        }
+
+        /* Augmenter la hauteur du formulaire */
+        .registration-form {
+            min-height: 500px;
+        }
+    </style>
+{% endblock %}
 {% block title %}Ajouter un utilisateur{% endblock %}
 
 {% block body %}
-    <div class="container">
+<section class="registration-container">
+    <div class="registration-form">
+        <fieldset class="mb-3">
         <h1>Ajouter un utilisateur</h1>
         <form method="post">
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {{ form_start(form, { 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_row(form.firstname, {'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_row(form.lastname, {'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_row(form.email, {'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_row(form.plainPassword, {'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+
+        </form>
+        </fieldset>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
             <a href="{{ path('admin_index') }}" class="btn btn-secondary">Annuler</a>
             {{ form_end(form) }}
         </form>
     </div>
+</section>
 {% endblock %}
 

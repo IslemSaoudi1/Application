@@ -48,18 +48,16 @@ class UsersController extends AbstractController
 
     public function editUser(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
-        $user=$entityManager->getRepository(Profile::class)->find($id);
+        $user=$entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('admin_index'); // Redirect to the user list page
         }
 
         return $this->render('admin/users/edit_user.html.twig', [
-            'User' => $user,
             'form' => $form->createView(),
         ]);
     }

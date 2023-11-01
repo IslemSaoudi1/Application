@@ -60,30 +60,25 @@
         }
     </style>
 {% endblock %}
-
-
 {% block body %}
-
     <section class="registration-container">
-        <div class="registration-form">
-            <h1>Edit Profile</h1>
-            {{ form_start(form) }}
-            <fieldset class="mb-3">
-                {{ form_row(form.jobDescription,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
-                {{ form_row(form.Nationality,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
-                {{ form_row(form.passport,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
-                {{ form_row(form.passportdeliveredOn,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
-                {{ form_row(form.User,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    <div class="registration-form">
 
-            </fieldset>
+    <h1>Edit User</h1>
+        <fieldset class="mb-3">
+    {{ form_start(form,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.firstname,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.lastname,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+    {{ form_row(form.email,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_row(form.plainPassword,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
 
-            <fieldset class="mb-3">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="{{ path('profile_index') }}" class="btn btn-secondary">Annuler</a>
-            </fieldset>
-            {{ form_end(form) }}
-
-        </div>
+        </fieldset>
+        <fieldset class="mb-3">
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{{ path('admin_index') }}" class="btn btn-secondary">Annuler</a>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
     </section>
 
 {% endblock %}

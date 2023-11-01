@@ -68,37 +68,14 @@ class ProfileController extends AbstractController
     public function editProfile(Request $request,EntityManagerInterface $entityManager, $id): Response
     {
         $profile = $entityManager->getRepository(Profile::class)->find($id);
-
         $form = $this->createForm(ProfileType::class, $profile);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle the uploaded passport file
-            /** @var UploadedFile $passportFile */
-            $passportFile = $form['passport']->getData();
-
-            if ($passportFile) {
-                // Generate a unique name for the file
-                $newFilename = uniqid().'.'.$passportFile->guessExtension();
-
-                // Move the file to a directory where you store passport files
-                $passportFile->move(
-                    $this->getParameter('passport_directory'), // Set this parameter in your config
-                    $newFilename
-                );
-
-                // Update the passport field with the new filename
-                $profile->setPassport($newFilename);
-            }
-
             $entityManager->flush();
-
             return $this->redirectToRoute('profile_index');
         }
-
         return $this->render('profile/edit_profile.html.twig', [
-            'profile' => $profile,
             'form' => $form->createView(),
         ]);
     }

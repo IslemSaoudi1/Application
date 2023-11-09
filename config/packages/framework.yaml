@@ -3,7 +3,7 @@ framework:
     assets:
         packages:
             images:
-                base_path: /images
+                base_path: '/public/'
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     http_method_override: false

@@ -7,10 +7,13 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\UserType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 //#[Route('/admin', name: 'admin_users_')]
 class UsersController extends AbstractController
 {
@@ -21,35 +24,49 @@ class UsersController extends AbstractController
         $users = $usersRepository->findBy([], ['firstname' => 'asc']);
         return $this->render('admin/users/index.html.twig', compact('users'));
     }
-
-    #[Route('/user/add', name: 'user_add')]
-    public function addUser(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/admin/add', name: 'admin_add')]
+    public function addUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $usersRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = new User(); // Assuming you have an entity named User
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $managers = $usersRepository->findManagers();
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user, ['managers' => $managers]);
 
-        $form = $this->createForm(UserType::class, $user); // Create a form for user input
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $selectedRoles = $form->get('roles')->getData();
+            $user->setRoles($selectedRoles);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_index'); // Redirect to the user list page
+            return $this->redirectToRoute('admin_index');
         }
 
         return $this->render('admin/users/add_user.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
     /**
-     * @Route("/user/editUser/{id}", name="user_edit", methods={"GET", "POST"})
+     * @Route("/admin/editUser/{id}", name="admin_edit", methods={"GET", "POST"})
      */
 
-    public function editUser(Request $request, EntityManagerInterface $entityManager, $id): Response
+    public function editUser(Request $request,UserRepository $usersRepository , EntityManagerInterface $entityManager, $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $user=$entityManager->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserType::class, $user);
+        $managers = $usersRepository->findManagers();
+        $form = $this->createForm(UserType::class, $user, ['managers' => $managers]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,23 +79,27 @@ class UsersController extends AbstractController
         ]);
     }
 
-
     /**
-     * @Route("/user/deleteUser/{id}", name="user_delete")
+     * @Route("/admin/deleteUser/{id}", name="admin_delete")
+     * /
      */
-    public function deleteUser(Request $request, EntityManagerInterface $entityManager,$id): Response
+    public function deleteUser(Request $request, $id, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-
-        $user= $entityManager->getRepository(User::class)->find($id);
+        $user = $entityManager->getRepository(User::class)->find($id);
 
         if (!$user) {
-            throw $this->createNotFoundException('user non trouvé.');
+            throw $this->createNotFoundException('Profil non trouvé.');
+        }
+        if ($request->query->get('delete')) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_index');
         }
 
-        $entityManager->remove($user);
-        $entityManager->flush();
-        return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('admin/users/delete_user.html.twig', [
+            'user' => $user,
+        ]);
     }
-
 }

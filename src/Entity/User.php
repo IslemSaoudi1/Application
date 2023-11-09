@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -43,6 +45,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'User')]
     private ?Profile $profile = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'no')]
+    private ?self $manager = null;
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: self::class)]
+    private Collection $no;
+
+    public function __construct()
+    {
+        $this->no = new ArrayCollection();
+    }
+
+
+
+
+    public function getManager(): ?self
+    {
+        return $this->manager;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getManagedUsers()
+    {
+        return $this->managedUsers;
+    }
+
+    /**
+     * @param mixed $managedUsers
+     */
+    public function setManagedUsers($managedUsers): void
+    {
+        $this->managedUsers = $managedUsers;
+    }
+
+    public function setManager(?self $manager): self
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -77,7 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = null;
 //        $roles[] = 'ROLE_ADMIN';
         return array_unique($roles);
     }
@@ -174,4 +217,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getSubordinates(): Collection
+    {
+        return $this->subordinates;
+    }
+
+    public function addSubordinate(User $subordinate)
+    {
+        if (!$this->subordinates->contains($subordinate)) {
+            $this->subordinates[] = $subordinate;
+        }
+    }
+
+    public function removeSubordinate(User $subordinate)
+    {
+        $this->subordinates->removeElement($subordinate);
+    }
+
+   public function __toString(): string
+   {
+       // TODO: Implement __toString() method.
+       return $this->getFirstname().' '.$this->getLastname();
+   }
+
+   /**
+    * @return Collection<int, self>
+    */
+   public function getNo(): Collection
+   {
+       return $this->no;
+   }
+
+   public function addNo(self $no): static
+   {
+       if (!$this->no->contains($no)) {
+           $this->no->add($no);
+           $no->setManager($this);
+       }
+
+       return $this;
+   }
+
+   public function removeNo(self $no): static
+   {
+       if ($this->no->removeElement($no)) {
+           // set the owning side to null (unless already changed)
+           if ($no->getManager() === $this) {
+               $no->setManager(null);
+           }
+       }
+
+       return $this;
+   }
+
+
 }

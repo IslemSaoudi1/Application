@@ -70,6 +70,13 @@
     {{ form_row(form.firstname,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
     {{ form_row(form.lastname,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
     {{ form_row(form.email,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+            {{ form_label(form.roles, 'Rôle', { 'label_attr': {'class': 'form-field-label'} }) }}
+            {{ form_widget(form.roles, { 'attr': {'class': 'form-field-input'}, 'id': 'user_role' }) }}
+            {{ form_errors(form.roles) }}
+
+            <div id="manager-field" style="display: none;">
+                {{ form_row(form.manager, {'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input' } }) }}
+            </div>
             {{ form_row(form.plainPassword,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
 
         </fieldset>
@@ -80,5 +87,21 @@
         {{ form_end(form) }}
     </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const roleSelect = $('#user_role');
+            const managerField = $('#manager-field');
 
+            roleSelect.on('change', function() {
+                if (roleSelect.val().includes('ROLE_USER')) {
+                    // Affichez le champ "Manager" si "User" est sélectionné
+                    managerField.show();
+                } else {
+                    // Cachez le champ "Manager" sinon
+                    managerField.hide();
+                }
+            });
+        });
+    </script>
 {% endblock %}

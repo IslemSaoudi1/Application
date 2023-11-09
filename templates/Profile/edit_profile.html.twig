@@ -71,7 +71,13 @@
             <fieldset class="mb-3">
                 {{ form_row(form.jobDescription,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
                 {{ form_row(form.Nationality,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
-                {{ form_row(form.passport,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
+{#                {{ form_row(form.passport,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}#}
+                <div class="form-group">
+                    <label for="passport">Passeport</label>
+                    <img id="passport" src="{{ asset('images/' ~ form.vars.data.passport) }}" alt="Passeport" width="50" height="50">
+                    <img id="passport_preview" width="50" height="50">
+                    {{ form_widget(form.passport, { 'attr': {'class': 'form-control'} }) }}
+                </div>
                 {{ form_row(form.passportdeliveredOn,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
                 {{ form_row(form.User,{ 'label_attr': {'class': 'form-field-label'}, 'attr': {'class': 'form-field-input'} }) }}
 
@@ -81,9 +87,34 @@
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <a href="{{ path('profile_index') }}" class="btn btn-secondary">Annuler</a>
             </fieldset>
-            {{ form_end(form) }}
 
+            {{ form_end(form) }}
         </div>
     </section>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+
+            var passportInput = $('#profile_passport');
+            var passportPreview = $('#passport_preview');
+            var passport= $('#passport');
+            passportPreview.hide();
+            passportInput.on('change', function () {
+
+                console.log('ok')
+                var input = this;
+                if (input.files && input.files[0]) {
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        passportPreview.show();
+                        passport.hide();
+                        passportPreview.attr('src', e.target.result); // Met à jour l'aperçu de l'image
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

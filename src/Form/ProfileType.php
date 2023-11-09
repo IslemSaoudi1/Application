@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType; // Add this line
 use Symfony\Bridge\Doctrine\Form\Type\EntityType; // Add this line
 use App\Entity\User;
+use Symfony\Component\Form\FormEvents;
+
 class ProfileType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options):void
@@ -15,11 +17,13 @@ class ProfileType  extends AbstractType
         $builder
             ->add('jobDescription')
             ->add('Nationality')
+//            ->add('passport', null , array("attr"=> array(), 'required' => false))
             ->add('passport', FileType::class, [
                 'label' => 'Passeport',
-                'required' => false, // Remove this if it's a required field
-                'data_class' => null, // Allow overwriting the file
+                'required' => false,
+                'data_class' => null,
             ])
+
             ->add('passportdeliveredOn')
             ->add('User', EntityType::class, [
                 'class' => User::class,

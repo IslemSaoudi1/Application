@@ -1,4 +1,19 @@
-<form method="post" action="{{ path('profile_delete', {'id': profile.id}) }}">
-    {{ form_widget(deleteForm) }}
-    <button type="submit" class="btn btn-danger">Supprimer</button>
-</form>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Delete Profile</h1>
+
+    <p>Are you sure you want to delete the Profile: {{ profile.jobDescription }}?</p>
+
+    <script>
+        function confirmDelete() {
+            if (confirm("Are you sure you want to delete this profile?")) {
+                // Si l'utilisateur clique sur "OK" dans la boîte de dialogue de confirmation, redirigez vers la page de suppression avec le paramètre "delete"
+                window.location.href = "{{ path('profile_delete', {'id': profile.id, 'delete': 1 }) }}";
+            }
+        }
+    </script>
+
+    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+    <a href="{{ path('profile_index') }}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -7,10 +7,12 @@
         "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "contao-components/jquery-ui": "^1.13",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",
+        "dompdf/dompdf": "^2.0",
         "fakerphp/faker": "^1.23",
         "liip/imagine-bundle": "^2.12",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -27,6 +29,7 @@
         "symfony/google-mailer": "6.0.*",
         "symfony/http-client": "6.0.*",
         "symfony/intl": "6.0.*",
+        "symfony/mailer": "6.0.*",
         "symfony/mime": "6.0.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "6.0.*",
@@ -35,6 +38,7 @@
         "symfony/property-info": "6.0.*",
         "symfony/runtime": "6.0.*",
         "symfony/security-bundle": "6.0.*",
+        "symfony/sendgrid-mailer": "6.0.*",
         "symfony/serializer": "6.0.*",
         "symfony/string": "6.0.*",
         "symfony/translation": "6.0.*",
@@ -60,7 +64,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "contao-components/installer": true
         },
         "optimize-autoloader": true,
         "preferred-install": {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrat</title>
+    <style>
+        /* Ajoutez vos styles CSS ici */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* ... */
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Contrat de Prestation de Services</h1>
+    <p>Date : {{ contrat.date }}</p>
+</header>
+
+    <section>
+        <h2>Durée du Contrat</h2>
+        <p>Le présent contrat entre en vigueur à compter de la date de signature par les deux parties et reste en vigueur pour une durée de [insérer la durée du contrat, par exemple, 12 mois].</p>
+    </section>
+
+    <section>
+        <h2>Conditions Générales</h2>
+        <p>Le prestataire s'engage à fournir les services conformément aux termes spécifiés dans le présent contrat. Le client s'engage à fournir toutes les informations nécessaires et la coopération requise pour la réalisation des services. Toute modification ou résiliation du contrat doit faire l'objet d'un accord écrit entre les deux parties.</p>
+    </section>
+
+    <section>
+        <h2>Engagements du Prestataire</h2>
+        <p>Le prestataire s'engage à :</p>
+        <ul>
+            <li>Fournir les services décrits dans le présent contrat de manière professionnelle et efficace.</li>
+            <li>Respecter les délais convenus pour la réalisation des services.</li>
+            <li>Maintenir la confidentialité des informations fournies par le client.</li>
+            <!-- Ajoutez d'autres engagements au besoin -->
+        </ul>
+    </section>
+
+    <section>
+        <h2>Obligations du Client</h2>
+        <p>Le client s'engage à :</p>
+        <ul>
+            <li>Faciliter l'accès aux informations nécessaires à la réalisation des services.</li>
+            <li>Effectuer les paiements selon les modalités spécifiées dans le contrat.</li>
+            <li>Collaborer avec le prestataire pour garantir la réussite des services.</li>
+            <!-- Ajoutez d'autres obligations au besoin -->
+        </ul>
+    </section>
+
+    <section>
+        <h2>Modalités de Paiement</h2>
+        <p>Le client s'engage à effectuer les paiements selon les modalités suivantes :</p>
+        <ul>
+            <li>[Insérer les détails des paiements, par exemple, montant, fréquence, mode de paiement, etc.]</li>
+            <!-- Ajoutez d'autres détails de paiement au besoin -->
+        </ul>
+    </section>
+
+    <!-- ... (other sections of the contract) -->
+
+    <footer>
+        <p>Signature Prestataire : ____________________________</p>
+        <p>Signature Client : ____________________________</p>
+    </footer>
+
+
+    <a href="{{ path('generate_pdf', {'id':profile.id}) }}">Télécharger le PDF</a>
+<a href="{{ path('send_mail', {'id':profile.id}) }}">Envoyer un mail </a>
+
+</body>
+</html>

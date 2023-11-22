@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Assign Task</h1>
+    {{ form_start(taskForm) }}
+    {{ form_row(taskForm.title) }}
+    {{ form_row(taskForm.description) }}
+{#    {{ form_row(taskForm.percentageComplete) }}#}
+    {{ form_row(taskForm.assignedUser) }}
+    {{ form_row(taskForm.save) }}
+    {{ form_end(taskForm) }}
+{% endblock %}
+

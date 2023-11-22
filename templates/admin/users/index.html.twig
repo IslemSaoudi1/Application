@@ -1,7 +1,9 @@
 {% extends "base.html.twig" %}
 
 {% block title %}Liste des utilisateurs{% endblock %}
-
+{% block style %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -54,9 +56,18 @@
                                         Aucun manager attribué
                                     {% endif %}
                                 </td>
-                                <td> <a href="{{ path('admin_edit', {'id': user.id}) }}" class="btn btn-secondary">Modifier</a>
+                                <td>
+                                    <a href="{{ path('admin_edit', {'id': user.id}) }}" class="btn btn-secondary">
+                                        <i class="fas fa-edit"></i> Modifier
+                                    </a>
 
-                                    <a href="{{ path('admin_delete', {'id': user.id}) }}" class="btn btn-danger">Supprimer</a>
+                                    <a href="{{ path('admin_delete', {'id': user.id}) }}" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </a>
+                                    <a href="{{ path('assign_task', {'userId': user.id}) }}" class="btn btn-primary">
+                                        <i class="fas fa-tasks"></i> Assign Task
+                                    </a>
+
                                 </td>
                             </tr>
                         {% endfor %}

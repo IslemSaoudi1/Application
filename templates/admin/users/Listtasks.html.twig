@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Tasks{% endblock %}
+{% block body %}
+    <h1>Your Tasks</h1>
+
+    {% if tasks|length > 0 %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <strong>{{ task.title }}</strong>
+                    {% if task.description is not null %}
+                        <p>{{ task.description }}</p>
+                    {% endif %}
+                    <p>Progress: <span id="progress-{{ task.id }}">{{ task.percentageComplete }}%</span></p>
+
+                    {# Barre de progression #}
+                    <div id="progressbar-{{ task.id }}"></div>
+
+                    {# Formulaire pour mettre à jour le pourcentage #}
+                    <form method="post" action="{{ path('update_percentage', {'taskId': task.id}) }}">
+                        <label for="newPercentage-{{ task.id }}">New Progress:</label>
+                        <input type="range" id="newPercentage-{{ task.id }}" name="newPercentage" min="0" max="100" value="{{ task.percentageComplete }}">
+                        <output for="newPercentage-{{ task.id }}" id="output-{{ task.id }}">{{ task.percentageComplete }}%</output>
+                        <button type="submit">Update Progress</button>
+                    </form>
+
+
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks assigned to you.</p>
+    {% endif %}
+    <script src="asset/js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[type="range"]').on('input', function() {
+                var value = $(this).val();
+                $(this).next('output').text(value + '%');
+            });
+        });
+    </script>
+
+
+{% endblock %}

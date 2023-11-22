@@ -1,7 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block title %}Liste des Profiles{% endblock %}
+{% block stylesheets %}
+<style>
+    .btn-pastel-green {
+        background-color:#ADD8E6; /* This is a pastel green color. You can adjust the color code as needed. */
+        color: #000; /* Set the text color for better contrast */
 
+    }
+</style>
+{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -42,10 +50,13 @@
 
 
                             <td>
-                                <a href="{{path('profile_edit', {'id': profile.id}) }}"  class="btn btn-secondary">Modifier</a>
+                                <a href="{{path('profile_edit', {'id': profile.id}) }}"  class="btn btn-primary">Modifier</a>
                             </td>
                             <td>
                                 <a href="{{ path('profile_delete', {'id': profile.id}) }}"  class="btn btn-danger">Supprimer</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('profileContrat', {'id': profile.id}) }}" class="btn btn-pastel-green">Générer un contrat</a>
                             </td>
 
                         </tr>

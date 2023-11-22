@@ -51,9 +51,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: self::class)]
     private Collection $no;
 
+    #[ORM\OneToMany(mappedBy: 'assignedUser', targetEntity: Task::class)]
+    private Collection $tasks;
+
     public function __construct()
     {
         $this->no = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
 
@@ -264,6 +268,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
            // set the owning side to null (unless already changed)
            if ($no->getManager() === $this) {
                $no->setManager(null);
+           }
+       }
+
+       return $this;
+   }
+
+   /**
+    * @return Collection<int, Task>
+    */
+   public function getTasks(): Collection
+   {
+       return $this->tasks;
+   }
+
+   public function addTask(Task $task): static
+   {
+       if (!$this->tasks->contains($task)) {
+           $this->tasks->add($task);
+           $task->setAssignedUser($this);
+       }
+
+       return $this;
+   }
+
+   public function removeTask(Task $task): static
+   {
+       if ($this->tasks->removeElement($task)) {
+           // set the owning side to null (unless already changed)
+           if ($task->getAssignedUser() === $this) {
+               $task->setAssignedUser(null);
            }
        }
 

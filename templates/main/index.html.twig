@@ -40,16 +40,94 @@
             transform: translate(-50%, -50%);
         }
 
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+        }
+        #leftArrow {
+            left: 20px;
+        }
+        #rightArrow {
+            right: 20px;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+        }
+
+        #leftArrow, #rightArrow {
+            font-size: 60px; /* Adjust the size as needed */
+            font-weight: bold;
+        }
+
     </style>
 {% endblock %}
 
 {% block body %}
+    <div class="text-container" id="textContainer">
+        Streamlink Votre Partenaire BI BIG data, SAP, CLOUD
+    </div>
+    <div class="text" id="additionalText">
+        Notre objectif est de développer des partenariats avec nos clients et les aider à valoriser leur patrimoine de données, pour faciliter les prises de décision.
+    </div>
 
-    <div class="text-container">
-            Streamlink Votre Partenaire BI BIG data ,SAP, CLOUD
-    </div>
-    <div class="text">
-        Notre objectif est de déveloper des partenaires avec nos clients et les aider à valoriser leur patrimonie de données ,pour faciliter les prises de décision
-    </div>
+    <!-- Flèche gauche -->
+    <div class="arrow" id="leftArrow"> &lsaquo; </div>
+
+    <!-- Flèche droite -->
+    <div class="arrow" id="rightArrow">&rsaquo;</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var currentImageIndex = 0;
+            var images = [
+                '{{ asset('asset/images/image.jpg') }}',
+                '{{ asset('asset/images/Stream1.png') }}',
+                '{{ asset('asset/images/Stream2.png') }}',
+            ];
+
+            function changeBackgroundImage(index) {
+                document.body.style.backgroundImage = 'url(' + images[index] + ')';
+            }
+
+            // Fonction pour gérer le clic sur la flèche
+            function handleArrowClick(isRight) {
+                if (isRight) {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                } else {
+                    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+                }
+                changeBackgroundImage(currentImageIndex);
+
+                // Masquer le texte si l'image actuelle n'est pas image.jpg
+                if (!images[currentImageIndex].includes('image.jpg')) {
+                    document.getElementById('textContainer').style.display = 'none';
+                    document.getElementById('additionalText').style.display = 'none';
+                } else {
+                    document.getElementById('textContainer').style.display = 'block';
+                    document.getElementById('additionalText').style.display = 'block';
+                }
+            }
+
+            // Fonction pour gérer le clic sur la flèche gauche
+            document.getElementById('leftArrow').addEventListener('click', function () {
+                handleArrowClick(false);
+            });
+
+            // Fonction pour gérer le clic sur la flèche droite
+            document.getElementById('rightArrow').addEventListener('click', function () {
+                handleArrowClick(true);
+            });
+        });
+    </script>
 {% endblock %}
-

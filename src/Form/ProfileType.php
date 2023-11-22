@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType; // Add this line
 use Symfony\Bridge\Doctrine\Form\Type\EntityType; // Add this line
 use App\Entity\User;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 
 class ProfileType  extends AbstractType
 {
@@ -24,10 +26,13 @@ class ProfileType  extends AbstractType
                 'data_class' => null,
             ])
 
-            ->add('passportdeliveredOn')
+            ->add('passportdeliveredOn',DateType::class, [
+                'attr' => ['class' => 'js-datepicker'],
+            ])
+
             ->add('User', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'lastname', // Remplacez par le champ approprié de l'entité User
+                'choice_label' => 'lastname',
             ]);
     }
 

@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\TaskType;
+use App\Entity\Task;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 //#[Route('/admin', name: 'admin_users_')]
@@ -88,6 +90,7 @@ class UsersController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $user = $entityManager->getRepository(User::class)->find($id);
+        $form = $this->createForm(TaskType::class);
 
         if (!$user) {
             throw $this->createNotFoundException('Profil non trouvé.');
@@ -102,4 +105,91 @@ class UsersController extends AbstractController
             'user' => $user,
         ]);
     }
+    /**
+     * @Route("/assign-task/{userId}", name="assign_task")
+     */
+    public function assignTask(Request $request, EntityManagerInterface $entityManager, int $userId): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $userRepository = $entityManager->getRepository(User::class);
+        $user = $userRepository->find($userId);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $task = new Task();
+        $task->setAssignedUser($user);
+
+        // Créer le formulaire d'ajout de tâche
+        $taskForm = $this->createForm(TaskType::class, $task);
+
+        // Traiter la soumission du formulaire
+        $taskForm->handleRequest($request);
+
+        if ($taskForm->isSubmitted() && $taskForm->isValid()) {
+            // Persister la tâche en base de données
+            $entityManager->persist($task);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Task assigned successfully.');
+
+            return $this->redirectToRoute('admin_index');
+        }
+
+        // Rendre la vue avec le formulaire
+        return $this->render('admin/users/Task.html.twig', [
+            'taskForm' => $taskForm->createView(),
+        ]);
+    }
+    /**
+     * @Route("/user-tasks", name="user_tasks")
+     */
+    public function userTasks(Request $request): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('login');
+        }
+        $tasks = $user->getTasks();
+
+        return $this->render('admin/users/Listtasks.html.twig', [
+            'tasks' => $tasks,
+        ]);
+    }
+    /**
+     * @Route("/update-percentage/{taskId}", name="update_percentage", methods={"POST"})
+     */
+    public function updatePercentage(Request $request, EntityManagerInterface $entityManager, int $taskId): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $taskRepository = $entityManager->getRepository(Task::class);
+        $task = $taskRepository->find($taskId);
+
+        if (!$task) {
+            throw $this->createNotFoundException('Task not found');
+        }
+
+        $newPercentage = $request->request->get('newPercentage');
+
+        // Check if the new percentage is provided
+        if ($newPercentage !== null) {
+            // Validate and update the percentage if necessary
+            if (is_numeric($newPercentage) && $newPercentage >= 0 && $newPercentage <= 100) {
+                $task->setPercentageComplete($newPercentage);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Task progress updated successfully.');
+            } else {
+                $this->addFlash('error', 'Invalid percentage value.');
+            }
+        }
+
+        return $this->redirectToRoute('user_tasks');
+    }
+
+
 }
